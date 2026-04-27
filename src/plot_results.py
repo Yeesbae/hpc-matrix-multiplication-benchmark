@@ -26,7 +26,8 @@ def process_results(df):
     return runtime, speedup
 
 def plot_results(results, comparison):
-    plt.title("Comparison of Implementations")
+    plt.figure()
+    plt.title("Average Runtime vs Matrix Size")
     plt.xlabel("Matrix Size")
     plt.ylabel("Execution Time (s)")
     plt.yscale('log')
