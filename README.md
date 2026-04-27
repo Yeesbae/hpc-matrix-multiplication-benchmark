@@ -151,6 +151,16 @@ At this stage:
 - NumPy is expected to be significantly faster because it uses optimized low-level numerical routines
 - multiprocessing may not always improve performance for small matrices due to process overhead
 
+After plotting and calculating the average runtime and speedup ratio
+- NumPy is significantly faster than naive Python, and it increases with matrix size
+
+| Matrix Size | Speedup (naive_python / NumPy) |
+|-------------|--------------------------------|
+| 16          | 270x                           |
+| 32          | 1,388x                         |
+| 64          | 8,696x                         |
+| 128         | 13,298x                        |
+
 ## Future Improvements
 
 Planned extensions:
