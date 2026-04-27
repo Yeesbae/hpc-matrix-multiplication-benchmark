@@ -42,7 +42,8 @@ Planned:
 hpc-matrix-multiplication-benchmark/
 ├── src/
 │   ├── implementations.py
-│   └── benchmark.py
+│   ├── benchmark.py
+│   └── plot_results.py
 ├── tests/
 │   └── test_implementations.py
 ├── experiments/
@@ -87,18 +88,31 @@ The tests verify that the implementations produce correct results for:
 
 ## Running Benchmarks
 
-Benchmarking script is currently under development.
-
-Planned command:
+Run the benchmark:
 
 ```sh
 python -m src.benchmark
 ```
 
-The benchmark will measure runtime across different matrix sizes and save results to:
+Results are saved to:
 
 ```text
-results/raw/
+results/raw/benchmark_results.csv
+```
+
+## Plotting Results
+
+Generate comparison and speedup plots:
+
+```sh
+python src/plot_results.py
+```
+
+Plots are saved to:
+
+```text
+results/plots/comparison_plot.png
+results/plots/speedup_plot.png
 ```
 
 ## Benchmark Design
@@ -123,13 +137,11 @@ Planned metrics:
 
 ## Results
 
-Results will be added after the benchmark pipeline is complete.
+Outputs:
 
-Planned outputs:
-
-- raw CSV timing results
-- runtime vs matrix size plot
-- speedup vs matrix size plot
+- `results/raw/benchmark_results.csv` — raw timing data
+- `results/plots/comparison_plot.png` — average runtime vs matrix size (log scale)
+- `results/plots/speedup_plot.png` — speedup ratio (naive_python / other) vs matrix size (only has Numpy for now)
 
 ## Initial Observations
 
@@ -146,7 +158,7 @@ Planned extensions:
 - add multiprocessing implementation
 - add worker scaling experiments
 - add larger benchmark configurations
-- add runtime plots
-- add speedup plots
+- add runtime plots (done)
+- add speedup plots (done)
 - add SLURM-style job script
 - add optional GPU implementation using PyTorch or CUDA
