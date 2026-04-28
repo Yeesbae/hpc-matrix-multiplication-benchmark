@@ -41,7 +41,9 @@ hpc-matrix-multiplication-benchmark/
 ├── src/
 │   ├── implementations.py
 │   ├── benchmark.py
-│   └── plot_results.py
+│   ├── plot_results.py
+│   ├── worker_scaling.py
+│   └── plot_worker_scaling.py
 ├── tests/
 │   └── test_implementations.py
 ├── experiments/
@@ -133,6 +135,28 @@ Planned metrics:
 - speedup versus naive baseline (done)
 - correctness flag (done)
 
+## Worker Scaling Experiment
+
+In addition to comparing implementations, this project evaluates how the multiprocessing implementation scales with increasing numbers of workers.
+
+The goal is to understand how parallel execution affects performance and identify the limits of scalability.
+
+### Experiment Design
+
+For each selected matrix size (e.g. 128, 256):
+
+1. Generate input matrices
+2. Fix the matrix size
+3. Run multiprocessing implementation with varying workers
+4. Measure execution time
+5. Repeat multiple times
+6. Compute average runtime
+7. Calculate speedup relative to single-worker execution
+
+Speedup is defined as:
+
+speedup = runtime(workers = 1) / runtime(workers = N)
+
 ## Results
 
 Outputs:
@@ -166,7 +190,7 @@ After implementing multiprocessing, the findings are as such:
 - The naive Python implementation exhibits O(n^3) time complexity with significant overhead from Python-level loops.
 - NumPy achieves large speedups by leveraging optimized low-level BLAS routines, enabling vectorized execution, better cache utilization, and reduced interpreter overhead.
 
-Multiprocessing introduces parallelism but suffers from overhead due to:
+Multiprocessing introduces parallelism but incurs overhead due to:
 - process creation
 - inter-process communication
 - data serialization (pickling)
@@ -203,19 +227,46 @@ Results:
 
 All implementations produced numerically equivalent results within a tolerance of 1e-6.
 
+### Worker Scaling Results
+
+Outputs:
+
+- `results/raw/benchmark_workers_results.csv` — raw scaling data
+- `results/plots/multiprocessing_workers_plot.png` — runtime vs workers
+- `results/plots/speedup_workers_plot.png` — speedup vs workers
+
+### Runtime vs Workers
+
+![Worker Runtime Plot](results/plots/multiprocessing_workers_plot.png)
+
+### Speedup vs Workers
+
+![Worker Speedup Plot](results/plots/speedup_workers_plot.png)
+
+### Parallel Scaling Observations
+
+- Increasing the number of workers improves performance initially.
+- Speedup is sub-linear, meaning doubling workers does not double performance.
+- Overhead from process creation, data transfer, and scheduling limits scalability.
+- For smaller matrix sizes, multiprocessing is slower due to overhead dominating computation.
+- For larger matrix sizes, multiprocessing provides noticeable performance gains.
+
+This demonstrates the practical limits of parallelism in CPU-bound Python workloads.
+
 ## Key Takeaways
 
 - Pure Python implementations scale poorly due to interpreter overhead.
 - Vectorized libraries like NumPy provide massive speedups through optimized low-level routines.
 - Parallelism introduces overhead and is only beneficial for sufficiently large workloads.
 - Performance engineering requires balancing computation, memory access, and overhead costs.
+- Parallel scalability is limited by overhead and hardware constraints, not just algorithm design.
 
 ## Future Improvements
 
 Planned extensions:
 
 - add multiprocessing implementation (done)
-- add worker scaling experiments
+- add worker scaling experiments (done)
 - add larger benchmark configurations
 - add runtime plots (done)
 - add speedup plots (done)
