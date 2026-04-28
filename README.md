@@ -131,7 +131,7 @@ Planned metrics:
 - runtime (done)
 - average runtime (done)
 - speedup versus naive baseline (done)
-- correctness flag
+- correctness flag (done)
 
 ## Results
 
@@ -141,7 +141,8 @@ Outputs:
 - `results/plots/comparison_plot.png` — average runtime vs matrix size (log scale)
 - `results/plots/speedup_plot.png` — speedup relative to naive_python for all implementations
 
-## Initial Observations
+## Observations
+### Initial Observations
 
 At this stage:
 
@@ -180,17 +181,27 @@ Multiprocessing introduces parallelism but suffers from overhead due to:
 
 As a result, multiprocessing only outperforms the naive implementation at larger matrix sizes.
 
-## Runtime Comparison
+### Runtime Comparison
 
 ![Runtime Plot](results/plots/comparison_plot.png)
 
-## Speedup Analysis
+### Speedup Analysis
 
 ![Speedup Plot](results/plots/speedup_plot.png)
 
 Things to note:
 - A logarithmic scale is used for runtime plots to visualize large performance differences between implementations.
 - Each benchmark uses deterministic random seeds to ensure reproducibility across runs.
+
+### Correctness Verification
+All implementations were validated against the NumPy reference implementation.
+
+Results:
+- naive_python: 100% correct
+- numpy: 100% correct
+- multiprocessing: 100% correct
+
+All implementations produced numerically equivalent results within a tolerance of 1e-6.
 
 ## Key Takeaways
 
