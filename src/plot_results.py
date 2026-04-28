@@ -43,6 +43,7 @@ def plot_results(results, comparison):
     plt.title("Speedup of Implementations")
     plt.xlabel("Matrix Size")
     plt.ylabel("Speedup")
+    plt.yscale('log')
     plt.grid(True)
     for impl, data in comparison.items():
         if impl != "matrix_size_grouped":

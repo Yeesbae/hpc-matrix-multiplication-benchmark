@@ -30,8 +30,6 @@ This project currently includes:
    - Uses optimized library-backed matrix multiplication
    - Serves as the optimized reference implementation
 
-Planned:
-
 3. Multiprocessing implementation  
    - Splits matrix computation across CPU workers
    - Used to study parallel overhead and scaling
@@ -130,9 +128,9 @@ For each matrix size:
 
 Planned metrics:
 
-- runtime
-- average runtime
-- speedup versus naive baseline
+- runtime (done)
+- average runtime (done)
+- speedup versus naive baseline (done)
 - correctness flag
 
 ## Results
@@ -141,7 +139,7 @@ Outputs:
 
 - `results/raw/benchmark_results.csv` — raw timing data
 - `results/plots/comparison_plot.png` — average runtime vs matrix size (log scale)
-- `results/plots/speedup_plot.png` — speedup ratio (naive_python / other) vs matrix size (only has Numpy for now)
+- `results/plots/speedup_plot.png` — speedup relative to naive_python for all implementations
 
 ## Initial Observations
 
@@ -161,11 +159,51 @@ After plotting and calculating the average runtime and speedup ratio
 | 64          | 8,696x                         |
 | 128         | 13,298x                        |
 
+### Final Observation
+
+After implementing multiprocessing, the findings are as such:
+- The naive Python implementation exhibits O(n^3) time complexity with significant overhead from Python-level loops.
+- NumPy achieves large speedups by leveraging optimized low-level BLAS routines, enabling vectorized execution, better cache utilization, and reduced interpreter overhead.
+
+Multiprocessing introduces parallelism but suffers from overhead due to:
+- process creation
+- inter-process communication
+- data serialization (pickling)
+
+| Matrix Size | Speedup (naive_python / Multiprocessing) |
+|-------------|------------------------------------------|
+| 16          | 0.014x                                   |
+| 32          | 0.115x                                   |
+| 64          | 0.650x                                   |
+| 128         | 1.591x                                   |
+
+
+As a result, multiprocessing only outperforms the naive implementation at larger matrix sizes.
+
+## Runtime Comparison
+
+![Runtime Plot](results/plots/comparison_plot.png)
+
+## Speedup Analysis
+
+![Speedup Plot](results/plots/speedup_plot.png)
+
+Things to note:
+- A logarithmic scale is used for runtime plots to visualize large performance differences between implementations.
+- Each benchmark uses deterministic random seeds to ensure reproducibility across runs.
+
+## Key Takeaways
+
+- Pure Python implementations scale poorly due to interpreter overhead.
+- Vectorized libraries like NumPy provide massive speedups through optimized low-level routines.
+- Parallelism introduces overhead and is only beneficial for sufficiently large workloads.
+- Performance engineering requires balancing computation, memory access, and overhead costs.
+
 ## Future Improvements
 
 Planned extensions:
 
-- add multiprocessing implementation
+- add multiprocessing implementation (done)
 - add worker scaling experiments
 - add larger benchmark configurations
 - add runtime plots (done)
