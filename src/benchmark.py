@@ -7,7 +7,8 @@ MATRIX_SIZES = [16, 32, 64, 128]
 REPEATS = 10
 IMPLEMENTATIONS = [
     ("naive_python", implementations.naive_python_implementation),
-    ("numpy", implementations.numpy_implementation)
+    ("numpy", implementations.numpy_implementation),
+    ("multiprocessing", implementations.multiprocessing_implementation)
 ]
 TOLERANCE = 1e-6
 
