@@ -40,7 +40,7 @@ def plot_results(results, comparison):
     plt.show()
     
     plt.figure()
-    plt.title("Speedup of Implementations")
+    plt.title("Speedup of Implementations (fixed workers)")
     plt.xlabel("Matrix Size")
     plt.ylabel("Speedup")
     plt.yscale('log')

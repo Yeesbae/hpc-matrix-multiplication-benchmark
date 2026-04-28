@@ -24,19 +24,19 @@ def numpy_implementation(A, B):
   
     return np.dot(A, B)
 
-def multiprocessing_implementation(A, B):
+def multiprocessing_implementation(A, B, workers=2):
     A = np.array(A)
     B = np.array(B)
     
     if A.shape[1] != B.shape[0]:
         raise ValueError("Number of columns in A must be equal to number of rows in B.")
     
-    A_parts = np.array_split(A, 2)
+    A_parts = np.array_split(A, workers)
     tasks = []
     
     for chunk in A_parts:
         tasks.append((chunk, B))
-    with mp.Pool(processes=2) as pool:
+    with mp.Pool(processes=workers) as pool:
         results = pool.starmap(naive_python_implementation, tasks)
     
     C = np.concatenate(results)

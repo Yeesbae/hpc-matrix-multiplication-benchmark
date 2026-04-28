@@ -3,7 +3,7 @@ import csv
 import numpy as np
 import implementations
 
-MATRIX_SIZES = [16, 32, 64, 128]
+MATRIX_SIZES = [16, 32, 64, 128, 256]
 REPEATS = 10
 IMPLEMENTATIONS = [
     ("naive_python", implementations.naive_python_implementation),
